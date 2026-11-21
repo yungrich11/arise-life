@@ -1,0 +1,98 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#090a0e">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="ARISE">
+<title>ARISE — Hunter System</title>
+<style>
+:root{color-scheme:dark;--bg:#090a0e;--panel:#141720;--panel2:#1b1f2a;--line:#303643;--muted:#9ba2b1;--gold:#f2a43a;--red:#ff7777}
+*{box-sizing:border-box}body{margin:0;background:radial-gradient(ellipse at top,#171923 0%,var(--bg) 58%);color:#f5f6fa;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;padding:calc(env(safe-area-inset-top) + 16px) 15px calc(env(safe-area-inset-bottom) + 28px);max-width:760px;margin-inline:auto}
+header{display:flex;justify-content:space-between;align-items:center;margin-bottom:18px}.eyebrow{font-size:10px;letter-spacing:2.5px;color:var(--gold);font-weight:800}.logo{font-size:34px;letter-spacing:5px;font-weight:950}.rank{border:1px solid #986323;color:var(--gold);padding:8px 10px;border-radius:8px;font-size:11px;font-weight:800;letter-spacing:1px}
+.panel{background:linear-gradient(145deg,#191d27,#11141b);border:1px solid var(--line);border-radius:16px;padding:16px;margin-bottom:13px;box-shadow:0 8px 24px #0003}.muted{color:var(--muted)}.tiny{font-size:11px}.level{font-size:58px;line-height:1;font-weight:950;margin:8px 0}.gold{color:var(--gold)}.bar{height:9px;background:#303541;border-radius:20px;overflow:hidden}.bar>div{height:100%;background:linear-gradient(90deg,#a85d17,#ffd078);transition:width .25s}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:17px}.stat{background:#171b24;border:1px solid var(--line);border-radius:12px;padding:12px 5px;text-align:center}.stat strong{display:block;font-size:23px;color:var(--gold)}.stat span{font-size:9px;letter-spacing:1px;color:var(--muted)}
+nav{display:flex;gap:6px;position:sticky;top:0;background:#090a0eee;backdrop-filter:blur(12px);padding:8px 0;z-index:3;margin-bottom:10px}.tab{flex:1;border:1px solid var(--line);background:#171b24;color:var(--muted);padding:11px 3px;border-radius:9px;font-size:10px;font-weight:800;letter-spacing:.5px}.tab.active{border-color:#b77a2b;color:var(--gold);background:#292117}
+h2{font-size:14px;letter-spacing:2px;margin:20px 0 10px}.quest{display:flex;align-items:center;gap:11px;width:100%;background:var(--panel2);border:1px solid var(--line);border-radius:12px;padding:13px;color:white;text-align:left;margin-bottom:8px}.quest.done{opacity:.52;border-color:#9b702f}.check{width:23px;height:23px;border:1px solid #737c8b;border-radius:6px;display:grid;place-items:center;flex-shrink:0}.done .check{background:var(--gold);color:#111;border-color:var(--gold)}.qinfo{flex:1;min-width:0}.qinfo b{display:block;font-size:13px}.qinfo small{display:block;color:var(--muted);font-size:11px;margin-top:3px}.points{color:var(--gold);font-size:12px;font-weight:800;white-space:nowrap}
+button,input,select{font:inherit}button{cursor:pointer}.actions{display:flex;gap:8px;flex-wrap:wrap;margin:10px 0}.btn{background:#252b37;border:1px solid #414958;color:#fff;padding:11px 13px;border-radius:10px;font-size:12px}.btn.primary{background:#a9651d;border-color:#d18b37;color:#120d07;font-weight:850}.btn.danger{border-color:#784044;color:#ff9999;background:#2a191d}.btn:disabled{opacity:.45}
+.field{width:100%;background:#0e1118;border:1px solid #39404d;border-radius:9px;color:#fff;padding:12px;margin:5px 0 10px}.formrow{display:grid;grid-template-columns:1fr 90px;gap:8px}.attribute{margin:13px 0}.attributehead{display:flex;justify-content:space-between;font-size:13px;margin-bottom:7px}.hidden{display:none!important}.empty{border:1px dashed #414958;padding:18px;text-align:center;border-radius:12px;color:var(--muted);font-size:12px}.notice{background:#211c14;border:1px solid #705027;color:#e9c38a;border-radius:10px;padding:11px;font-size:11px;line-height:1.5;margin:12px 0}.penalty{border-color:#704044;background:#291a1d}.footer{text-align:center;color:#747b89;font-size:10px;margin-top:22px}.modal{position:fixed;inset:0;background:#000b;display:flex;align-items:flex-end;justify-content:center;padding:14px;z-index:10}.modalbox{width:100%;max-width:520px;background:#171b24;border:1px solid #414958;border-radius:18px;padding:18px}
+</style>
+</head>
+<body>
+<header><div><div class="eyebrow">YOUR LIFE. YOUR LEVEL.</div><div class="logo">ARISE<span class="gold">.</span></div></div><div class="rank" id="rank">E-RANK HUNTER</div></header>
+<section class="panel">
+ <div class="muted tiny" style="letter-spacing:2px">CURRENT HUNTER LEVEL</div>
+ <div style="display:flex;justify-content:space-between;align-items:end"><div><div class="level" id="level">01</div><div class="muted tiny" id="rankname">NOVICE HUNTER</div></div><div style="text-align:right"><div class="muted tiny">TOTAL EXPERIENCE</div><b class="gold" style="font-size:25px" id="xp">0 XP</b></div></div>
+ <div class="bar" style="margin-top:15px"><div id="progress" style="width:0%"></div></div><div class="muted tiny" id="next" style="margin-top:8px">0 / 100 XP</div>
+</section>
+<section class="stats"><div class="stat"><strong id="streak">0</strong><span>DAY STREAK</span></div><div class="stat"><strong id="done">0</strong><span>QUESTS DONE</span></div><div class="stat"><strong id="todayxp">0</strong><span>XP TODAY</span></div></section>
+<nav><button class="tab active" data-page="daily">TODAY</button><button class="tab" data-page="weekly">WEEK</button><button class="tab" data-page="status">STATUS</button><button class="tab" data-page="rules">SYSTEM</button></nav>
+<section id="page-daily"><div class="muted tiny" id="date"></div><h2>DAILY QUESTS</h2><div id="dailylist"></div><div class="actions"><button class="btn" id="addDaily">＋ Add quest</button></div><div class="notice">Rest is part of the system. No XP loss for illness, recovery or a planned rest day. Your progress is about consistency, not perfection.</div></section>
+<section id="page-weekly" class="hidden"><div class="muted tiny" id="weeklabel"></div><h2>WEEKLY MISSIONS</h2><div id="weeklylist"></div><div class="actions"><button class="btn" id="addWeekly">＋ Add weekly mission</button></div><p class="muted tiny">Weekly missions reset at the start of each Monday. Your total XP stays with you.</p></section>
+<section id="page-status" class="hidden"><h2>HUNTER ATTRIBUTES</h2><div id="attributes"></div><h2>HUNTER RECORD</h2><div class="panel"><div class="muted tiny">TOTAL QUESTS COMPLETED</div><div class="gold" style="font-size:30px;font-weight:900" id="totalDone">0</div><div class="muted tiny" style="margin-top:10px">CURRENT RANK</div><b id="recordRank">E-RANK</b></div></section>
+<section id="page-rules" class="hidden"><h2>SYSTEM PENALTIES</h2><p class="muted tiny">Only apply a penalty when you consciously choose to break a personal rule. Never use penalties for missed exercise due to fatigue, illness or recovery.</p><div id="penaltylist"></div><h2>BACKUP & SETTINGS</h2><div class="actions"><button class="btn" id="export">Export backup</button><button class="btn" id="import">Import backup</button><button class="btn danger" id="resetAll">Reset all progress</button></div><input type="file" id="backupFile" accept="application/json" class="hidden"><div class="notice">Your progress is stored locally in this browser on this iPhone. Clearing Safari website data can erase it. Export a backup occasionally.</div></section>
+<div class="footer">ARISE SYSTEM · VERSION 2.0 · LOCAL SAVE</div>
+<div id="modal" class="modal hidden"><div class="modalbox"><h2 id="modalTitle" style="margin-top:0">NEW QUEST</h2><label class="muted tiny">QUEST NAME</label><input id="questName" class="field" maxlength="48" placeholder="e.g. 20-minute walk"><label class="muted tiny">DETAIL (OPTIONAL)</label><input id="questDetail" class="field" maxlength="80" placeholder="e.g. easy pace outside"><div class="formrow"><div><label class="muted tiny">XP REWARD</label><input id="questXP" class="field" type="number" min="1" max="200" value="25"></div><div><label class="muted tiny">TYPE</label><select id="questType" class="field"><option value="daily">Daily</option><option value="weekly">Weekly</option></select></div></div><div class="actions"><button class="btn primary" id="saveQuest">Save quest</button><button class="btn" id="cancelModal">Cancel</button></div></div></div>
+<script>
+(()=>{
+const KEY='arise-save';
+const dailyDefaults=[
+{id:'walk',name:'Spaziergang',detail:'20–30 Minuten draußen',xp:40,attr:'Ausdauer'},
+{id:'water',name:'Wasser trinken',detail:'Ausreichend Wasser trinken',xp:15,attr:'Vitalität'},
+{id:'workout',name:'Home Workout',detail:'10–15 Minuten Bewegung',xp:30,attr:'Stärke'},
+{id:'food',name:'Ausgewogen essen',detail:'Bewusste Mahlzeiten',xp:25,attr:'Vitalität'},
+{id:'learn',name:'Etwas lernen',detail:'10 Minuten Spanisch oder Lesen',xp:20,attr:'Intelligenz'}
+];
+const weeklyDefaults=[
+{id:'w-walk',name:'Drei Spaziergänge',detail:'Je 20–30 Minuten',xp:60,attr:'Ausdauer'},
+{id:'w-workout',name:'Zwei Home-Workouts',detail:'Je 10–20 Minuten',xp:60,attr:'Stärke'},
+{id:'w-swim',name:'Schwimmen gehen',detail:'Eine entspannte Schwimmeinheit',xp:60,attr:'Ausdauer'}
+];
+const penalties=[{id:'junk',name:'Bewusst ungeplantes Junkfood',xp:10},{id:'skip',name:'Eine selbst zugesagte Quest bewusst ignoriert',xp:10}];
+const dateKey=()=>{let d=new Date();return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0')};
+const weekKey=()=>{let d=new Date();d.setHours(0,0,0,0);d.setDate(d.getDate()-((d.getDay()+6)%7));return dateKeyFrom(d)};
+const dateKeyFrom=d=>d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');
+const fresh=()=>({xp:0,completed:[],date:dateKey(),week:weekKey(),weeklyCompleted:[],streak:0,lastCompletedDay:'',totalDone:0,history:[],dailyCustom:[],weeklyCustom:[],attributes:{Stärke:0,Ausdauer:0,Vitalität:0,Intelligenz:0},penalties:[]});
+let data;try{data=JSON.parse(localStorage.getItem(KEY))||fresh()}catch(e){data=fresh()}
+function migrate(){let f=fresh();for(let k in f)if(data[k]===undefined)data[k]=f[k];if(!data.attributes)data.attributes=f.attributes;for(let k in f.attributes)if(data.attributes[k]===undefined)data.attributes[k]=0;if(!data.lastCompletedDay&&data.lastDay)data.lastCompletedDay=data.lastDay}
+migrate();
+function save(){try{localStorage.setItem(KEY,JSON.stringify(data))}catch(e){alert('Speichern nicht möglich. Bitte exportiere ein Backup.');}}
+function allDaily(){return [...dailyDefaults,...data.dailyCustom]}
+function allWeekly(){return [...weeklyDefaults,...data.weeklyCustom]}
+function rank(){let l=Math.floor(data.xp/100)+1;return l>=31?'S':l>=21?'A':l>=13?'B':l>=8?'C':l>=4?'D':'E'}
+function level(){return Math.floor(data.xp/100)+1}
+function addXP(n){let before=level();data.xp=Math.max(0,data.xp+n);if(level()>before)document.getElementById('message')?.replaceChildren(document.createTextNode('LEVEL UP! Level '+level()+' erreicht.'))}
+function message(s){let el=document.getElementById('toast');if(!el){el=document.createElement('div');el.id='toast';el.className='notice';document.body.insertBefore(el,document.querySelector('.footer'))}el.textContent=s;el.style.display='block';}
+function advanceDay(){let now=dateKey();if(data.date!==now){data.history.push({date:data.date,completed:[...data.completed]});data.completed=[];data.date=now;save()}}
+function advanceWeek(){let now=weekKey();if(data.week!==now){data.week=now;data.weeklyCompleted=[];save()}}
+function completeQuest(q,type){let arr=type==='daily'?data.completed:data.weeklyCompleted;if(arr.includes(q.id))return;arr.push(q.id);data.totalDone++;data.attributes[q.attr]=(data.attributes[q.attr]||0)+1;addXP(q.xp);if(data.lastCompletedDay!==dateKey()){let yesterday=new Date();yesterday.setDate(yesterday.getDate()-1);let y=dateKeyFrom(yesterday);data.streak=data.lastCompletedDay===y?data.streak+1:1;data.lastCompletedDay=dateKey()}save();render();message('Quest abgeschlossen · +'+q.xp+' XP');}
+function render(){
+advanceDay();advanceWeek();let l=level(),p=data.xp%100,r=rank();
+document.getElementById('level').textContent=String(l).padStart(2,'0');document.getElementById('xp').textContent=data.xp+' XP';document.getElementById('rank').textContent=r+'-RANK HUNTER';document.getElementById('rankname').textContent=({E:'NOVICE HUNTER',D:'APPRENTICE HUNTER',C:'SKILLED HUNTER',B:'ELITE HUNTER',A:'MASTER HUNTER',S:'SHADOW MONARCH'})[r];document.getElementById('progress').style.width=p+'%';document.getElementById('next').textContent=p+' / 100 XP · '+(100-p)+' XP bis zum nächsten Level';
+document.getElementById('streak').textContent=data.streak;document.getElementById('done').textContent=data.totalDone;document.getElementById('totalDone').textContent=data.totalDone;document.getElementById('recordRank').textContent=r+'-RANK';document.getElementById('todayxp').textContent=allDaily().filter(q=>data.completed.includes(q.id)).reduce((a,q)=>a+q.xp,0);
+document.getElementById('date').textContent=new Date().toLocaleDateString('de-DE',{weekday:'long',day:'numeric',month:'long'});document.getElementById('weeklabel').textContent='Woche ab '+new Date().toLocaleDateString('de-DE',{day:'numeric',month:'long'});
+document.getElementById('dailylist').innerHTML=allDaily().map(q=>`<button class="quest ${data.completed.includes(q.id)?'done':''}" data-d="${q.id}"><span class="check">${data.completed.includes(q.id)?'✓':''}</span><span class="qinfo"><b>${esc(q.name)}</b><small>${esc(q.detail||'')}</small></span><span class="points">+${q.xp} XP</span></button>`).join('')||'<div class="empty">Noch keine Daily Quests.</div>';
+document.getElementById('weeklylist').innerHTML=allWeekly().map(q=>`<button class="quest ${data.weeklyCompleted.includes(q.id)?'done':''}" data-w="${q.id}"><span class="check">${data.weeklyCompleted.includes(q.id)?'✓':''}</span><span class="qinfo"><b>${esc(q.name)}</b><small>${esc(q.detail||'')}</small></span><span class="points">+${q.xp} XP</span></button>`).join('');
+document.getElementById('attributes').innerHTML=Object.entries(data.attributes).map(([n,v])=>`<div class="attribute"><div class="attributehead"><b>${n}</b><span class="gold">${v} pts</span></div><div class="bar"><div style="width:${Math.min(100,v*4)}%"></div></div></div>`).join('');
+document.getElementById('penaltylist').innerHTML=penalties.map(q=>`<button class="quest penalty" data-p="${q.id}"><span class="qinfo"><b>${q.name}</b><small>Nur bewusst anwenden</small></span><span style="color:var(--red);font-weight:800">−${q.xp} XP</span></button>`).join('');
+}
+function esc(s){return String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
+document.getElementById('dailylist').addEventListener('click',e=>{let b=e.target.closest('[data-d]');if(!b)return;let q=allDaily().find(x=>x.id===b.dataset.d);if(q)completeQuest(q,'daily')});
+document.getElementById('weeklylist').addEventListener('click',e=>{let b=e.target.closest('[data-w]');if(!b)return;let q=allWeekly().find(x=>x.id===b.dataset.w);if(q)completeQuest(q,'weekly')});
+document.getElementById('penaltylist').addEventListener('click',e=>{let b=e.target.closest('[data-p]');if(!b)return;let q=penalties.find(x=>x.id===b.dataset.p);if(confirm(q.name+' – '+q.xp+' XP abziehen?')){addXP(-q.xp);data.penalties.push({id:q.id,date:dateKey()});save();render();message('Penalty angewendet. Morgen ist eine neue Chance.')}});
+document.querySelectorAll('[data-page]').forEach(b=>b.addEventListener('click',()=>{document.querySelectorAll('.tab').forEach(x=>x.classList.toggle('active',x===b));['daily','weekly','status','rules'].forEach(id=>document.getElementById('page-'+id).classList.toggle('hidden',id!==b.dataset.page))}));
+let type='daily';
+function openModal(t){type=t;document.getElementById('questType').value=t;document.getElementById('questType').disabled=true;document.getElementById('questName').value='';document.getElementById('questDetail').value='';document.getElementById('questXP').value=25;document.getElementById('modal').classList.remove('hidden')}
+document.getElementById('addDaily').onclick=()=>openModal('daily');document.getElementById('addWeekly').onclick=()=>openModal('weekly');document.getElementById('cancelModal').onclick=()=>document.getElementById('modal').classList.add('hidden');
+document.getElementById('saveQuest').onclick=()=>{let name=document.getElementById('questName').value.trim(),detail=document.getElementById('questDetail').value.trim(),xp=Math.max(1,Math.min(200,Number(document.getElementById('questXP').value)||25));if(!name){alert('Bitte gib der Quest einen Namen.');return}let q={id:'custom-'+Date.now(),name,detail,xp,attr:'Stärke'};(type==='daily'?data.dailyCustom:data.weeklyCustom).push(q);save();document.getElementById('modal').classList.add('hidden');render();message('Neue Quest erstellt.')};
+document.getElementById('resetAll').onclick=()=>{if(confirm('Wirklich alle ARISE-Daten löschen? Exportiere vorher ein Backup.')){data=fresh();save();render();message('System zurückgesetzt.')}};
+document.getElementById('export').onclick=()=>{let blob=new Blob([JSON.stringify(data,null,2)],{type:'application/json'}),url=URL.createObjectURL(blob),a=document.createElement('a');a.href=url;a.download='arise-backup.json';a.click();URL.revokeObjectURL(url)};
+document.getElementById('import').onclick=()=>document.getElementById('backupFile').click();
+document.getElementById('backupFile').onchange=async e=>{let f=e.target.files[0];if(!f)return;try{let d=JSON.parse(await f.text());if(typeof d.xp!=='number'||!Array.isArray(d.completed))throw Error();data=d;migrate();save();render();message('Backup importiert.')}catch(err){alert('Diese Backup-Datei ist ungültig.')}e.target.value=''};
+render();
+})();
+</script>
+</body>
+</html>
